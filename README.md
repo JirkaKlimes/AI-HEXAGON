@@ -1,19 +1,10 @@
 ## Abilities Tested
-1. **Arithmetic**: capability to perform mathematical calculations
-2. **Logic**: ability to apply logical operations and make decisions based on input
-3. **Long-Range**: capacity to handle and process long sequences of input effectively
-3. **Inner-State**: ability to maintain and manipulate internal representations of information during processing
-5. **Memory**: ability to recall exact information from training data
-6. **Size/Efficiency**: (FLOPs + Params) required for inference
 
-## Input Format
-- No tokenizer
-- Input will be just characters, mostly digits and special symbols
+1. **Memory Capacity**: The ability of the model to store and recall information from the training data.
+2. **State Management**: The ability to maintain and manipulate an internal hidden state across a sequence of operations.
+3. **Reasoning**: The ability to perform logical operations and solve problems that require reasoning steps.
+4. **Pattern Recognition**: The ability to recognize patterns in sequences and extrapolate.
+5. **Position**: The ability to accurately index elements in the input sequence.
 
-## Tasks
-Smallest amount of tasks to test on that can rate a model on the radar chart:
-
-1. Evaluate long mathematical expressions (Arithmetic, Logic, Long-Range)
-2. Match opening and closing brackets, output if balanced (Long-Range)
-3. Recall long random strings from the training data (Memory, Long-Range)
-4. Apply ops to state `321_3:SwapLeftIncrementIncrementSwap -> 5213_` (Logic, Inner-State)
+6. **Long-Range**: The ability to process and analyze long sequences of input effectively.
+7. **...**: ... ability to infer on longer than training sequences...
