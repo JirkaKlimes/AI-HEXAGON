@@ -1,0 +1,4 @@
+-   [ ] Working local version
+    -   [ ] Abstract test class
+    -   [ ] Basic tests
+    -   [ ] Grade (HEX) config consisting of tests
