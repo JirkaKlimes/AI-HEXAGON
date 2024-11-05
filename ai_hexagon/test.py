@@ -10,6 +10,7 @@ class Test(ABC, BaseModel):
     __tests__: ClassVar[Dict[str, "Test"]] = {}
 
     __test_name__: ClassVar[str] = None
+    __test_title__: ClassVar[str] = ...
     __test_description__: ClassVar[Optional[str]] = None
 
     __seed: int = 69
