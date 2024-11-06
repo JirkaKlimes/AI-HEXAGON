@@ -8,3 +8,5 @@ class HashMap(Test):
     )
     num_pairs: int
     key_value_ratio: float
+
+    # TODO: implement the data generation and evaluation

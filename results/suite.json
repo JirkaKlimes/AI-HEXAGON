@@ -1,9 +1,10 @@
 {
     "name": "General 1M",
+    "description": "General test of model architecture performance",
     "metrics": [
         {
-            "name": "Memory",
-            "description": "Ability to retrieve training data",
+            "name": "Memory Capacity",
+            "description": "The ability of the model to store and recall information from the training data.",
             "tests": [
                 {
                     "name": "hash_map",
@@ -11,6 +12,20 @@
                     "parameters": {
                         "num_pairs": 100000,
                         "key_value_ratio": 0.0078125
+                    }
+                }
+            ]
+        },
+        {
+            "name": "State Management",
+            "description": "The ability to maintain and manipulate an internal hidden state across a sequence of operations.",
+            "tests": [
+                {
+                    "name": "state_tracking",
+                    "weight": 1.0,
+                    "parameters": {
+                        "num_steps": 128,
+                        "state_size": 8
                     }
                 }
             ]
