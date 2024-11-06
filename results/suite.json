@@ -1,0 +1,19 @@
+{
+    "name": "General 1M",
+    "metrics": [
+        {
+            "name": "Memory",
+            "description": "Ability to retrieve training data",
+            "tests": [
+                {
+                    "name": "hash_map",
+                    "weight": 1.0,
+                    "parameters": {
+                        "num_pairs": 100000,
+                        "key_value_ratio": 0.0078125
+                    }
+                }
+            ]
+        }
+    ]
+}
