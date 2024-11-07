@@ -6,8 +6,10 @@ import optax
 
 
 class Model(nn.Module):
-    def init_train_state(self, x: Array, y: Array, key: Array) -> TrainState:
-        variables = self.init(key, x, y)
+    vocab_size: int
+
+    def init_train_state(self, x: Array, key: Array) -> TrainState:
+        variables = self.init(key, x)
         state = TrainState.create(
             apply_fn=self.apply,
             params=variables["params"],
@@ -18,7 +20,7 @@ class Model(nn.Module):
     def train_step(self, x: Array, y: Array, state: TrainState):
         def loss_fn(params: FrozenVariableDict):
             y_pred = state.apply_fn({"params": params}, x)
-            loss = optax.softmax_cross_entropy_with_integer_labels(y_pred, y)
+            loss = optax.softmax_cross_entropy_with_integer_labels(y_pred, y).mean()
             return loss
 
         grads = jax.grad(loss_fn)(state.params)

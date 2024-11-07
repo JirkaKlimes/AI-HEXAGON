@@ -28,7 +28,12 @@ if __name__ == "__main__":
             Test(
                 name="hash_map",
                 weight=1.0,
-                parameters={"num_pairs": 100000, "key_value_ratio": 1 / 128},
+                parameters={
+                    "key_length": 8,
+                    "value_length": 64,
+                    "num_pairs": (32, 65536),
+                    "vocab_size": 1024,
+                },
             )
         ],
     )
@@ -39,7 +44,7 @@ if __name__ == "__main__":
             Test(
                 name="state_tracking",
                 weight=1.0,
-                parameters={"num_steps": 128, "state_size": 8},
+                parameters={"num_steps": (2, 128), "state_size": 16},
             )
         ],
     )

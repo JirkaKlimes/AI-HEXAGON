@@ -17,6 +17,7 @@ optax = "^0.2.3"
 pydantic = "^2.9.2"
 click = "^8.1.7"
 tabulate = "^0.9.0"
+tqdm = "^4.67.0"
 
 [tool.poetry.group.cuda12]
 optional = true
@@ -32,13 +33,13 @@ optional = true
 ruff = "^0.7.2"
 pre-commit = "^4.0.1"
 mypy = "^1.13.0"
+types-tabulate = "^0.9.0.20240106"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
-line-length = 110
 indent-width = 4
 
 [tool.ruff.format]
