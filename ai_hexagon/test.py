@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import ClassVar, Dict, Optional
+from typing import ClassVar, Dict, Optional, Type
 
 import inflection
 import jax
@@ -7,13 +7,13 @@ from pydantic import BaseModel
 
 
 class Test(ABC, BaseModel):
-    __tests__: ClassVar[Dict[str, "Test"]] = {}
+    __tests__: ClassVar[Dict[str, Type["Test"]]] = {}
 
-    __test_name__: ClassVar[str] = None
-    __test_title__: ClassVar[str] = ...
+    __test_name__: ClassVar[str] = ""
+    __test_title__: ClassVar[str] = ""
     __test_description__: ClassVar[Optional[str]] = None
 
-    __seed: int = 69
+    __seed__: int = 69
 
     def __init_subclass__(cls, **kwargs):
         if cls.__test_name__ is None:
@@ -28,7 +28,7 @@ class Test(ABC, BaseModel):
         return inflection.underscore(cls.__name__)
 
     def model_post_init(self, __context):
-        self.__key__ = jax.random.PRNGKey(self.__seed)
+        self.__key__ = jax.random.PRNGKey(self.__seed__)
         self.setup()
         return super().model_post_init(__context)
 

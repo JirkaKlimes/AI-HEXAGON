@@ -1,15 +1,12 @@
-import flax
 import jax
-import jax.numpy as jnp
 import flax.linen as nn
+from flax.typing import Array, FrozenVariableDict
 from flax.training.train_state import TrainState
 import optax
 
 
 class Model(nn.Module):
-    def init_train_state(
-        self, x: jnp.ndarray, y: jnp.ndarray, key: jax.random.PRNGKey
-    ) -> TrainState:
+    def init_train_state(self, x: Array, y: Array, key: Array) -> TrainState:
         variables = self.init(key, x, y)
         state = TrainState.create(
             apply_fn=self.apply,
@@ -18,8 +15,8 @@ class Model(nn.Module):
         )
         return state
 
-    def train_step(self, x: jnp.ndarray, y: jnp.ndarray, state: TrainState):
-        def loss_fn(params: flax.core.FrozenDict):
+    def train_step(self, x: Array, y: Array, state: TrainState):
+        def loss_fn(params: FrozenVariableDict):
             y_pred = state.apply_fn({"params": params}, x)
             loss = optax.softmax_cross_entropy_with_integer_labels(y_pred, y)
             return loss
