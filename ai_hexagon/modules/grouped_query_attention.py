@@ -1,5 +1,7 @@
-import flax.linen as nn
+from typing import Optional
 import jax.numpy as jnp
+from einops import rearrange, einsum, repeat
+import flax.linen as nn
 from flax.typing import Array
 
 
@@ -9,40 +11,39 @@ class GroupedQueryAttention(nn.Module):
     k_heads: int
 
     @nn.compact
-    def __call__(self, q: Array, k: Array, v: Array, mask: Array = None) -> Array:
+    def __call__(self, q: Array, kv: Array, mask: Optional[Array] = None) -> Array:
         assert (
             self.q_heads % self.k_heads == 0
-        ), "num of kv heads must by divisible by num of q heads"
-        assert self.dims % self.q_heads == 0, "dims must be devisible by num of q heads"
+        ), "Number of q_heads must be divisible by k_heads"
+        assert self.dims % self.q_heads == 0, "dims must be divisible by num of q_heads"
 
         in_dim = q.shape[-1]
-
         head_dim = self.dims // self.q_heads
+        repeat_factor = self.q_heads // self.k_heads
 
-        qx = nn.Dense(self.q_heads * head_dim)(q)
-        qx = qx.reshape((*qx.shape[:-1], self.q_heads, head_dim))
+        q = nn.Dense(features=self.q_heads * head_dim)(q)
+        q = rearrange(q, "... s (h d) -> ... h s d", h=self.q_heads)
 
-        kx = nn.Dense(self.k_heads * head_dim)(k)
-        kx = kx.reshape((*kx.shape[:-1], self.k_heads, head_dim))
+        k = nn.Dense(features=self.k_heads * head_dim)(kv)
+        k = rearrange(k, "... seq (h d) -> ... h s d", h=self.k_heads)
+        v = nn.Dense(features=self.k_heads * head_dim)(kv)
+        v = rearrange(v, "... s (h d) -> ... h s d", h=self.k_heads)
 
-        vx = nn.Dense(self.k_heads * head_dim)(v)
-        vx = vx.reshape((*vx.shape[:-1], self.k_heads, head_dim))
+        k = repeat(k, "... h s d -> ... (h r) s d", r=repeat_factor)
+        v = repeat(v, "... h s d -> ... (h r) s d", r=repeat_factor)
 
-        kx = kx.repeat(self.q_heads // self.k_heads, axis=-2)
-        vx = vx.repeat(self.q_heads // self.k_heads, axis=-2)
+        scores = einsum(q, k, "... h q d, ... h k d -> ... h q k")
+        scores = scores / head_dim**0.5
 
-        qx = jnp.einsum("...ijk->...jik", qx)
-        kx = jnp.einsum("...ijk->...jik", kx)
-        vx = jnp.einsum("...ijk->...jik", vx)
-        scores = jnp.einsum("...jk,...ik->...ji", qx, kx)
-        scores /= jnp.sqrt(head_dim)
         if mask is not None:
+            mask = repeat(mask, "... q k -> ... h q k", h=self.q_heads)
             scores = jnp.where(mask, scores, -jnp.inf)
-        scores = nn.softmax(scores)
 
-        out = jnp.einsum("...jk,...ki->...ji", scores, vx)
-        out = jnp.einsum("...ijk->...jik", out)
-        out = out.reshape((*out.shape[:-2], -1))
-        out = nn.Dense(in_dim)(out)
+        attn_weights = nn.softmax(scores, axis=-1)
+
+        out = einsum(attn_weights, v, "... h q k, ... h k d -> ... h q d")
+
+        out = rearrange(out, "... h s d -> ... s (h d)")
+        out = nn.Dense(features=in_dim)(out)
 
         return out
