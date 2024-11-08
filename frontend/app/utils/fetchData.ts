@@ -1,4 +1,4 @@
-import { Suite, ModelResult, ModelData } from './types';
+import { Suite, ModelResult, ModelData, GitHubContentsResponse } from './types';
 
 const repo = `${process.env.GITHUB_REPOSITORY_OWNER}/${process.env.GITHUB_REPOSITORY}`;
 
@@ -16,15 +16,19 @@ export async function fetchSuite(): Promise<Suite> {
   return fetchFile<Suite>('results/suite.json');
 }
 
+interface File {
+  type: string;
+}
+
 export async function fetchModelList(): Promise<string[]> {
   const url = `https://api.github.com/repos/${repo}/contents/results`;
   const response = await fetch(url, { next: { revalidate: 600 } });
   if (!response.ok) {
     throw new Error(`Failed to fetch models: ${response.statusText}`);
   }
-  const contents = await response.json();
-  const folders = contents.filter((file: any) => file.type === 'dir');
-  return folders.map((folder: any) => folder.name);
+  const contents: GitHubContentsResponse = await response.json();
+  const folders = contents.filter((file: File) => file.type === 'dir');
+  return folders.map((folder) => folder.name);
 }
 
 export async function fetchModelData(name: string): Promise<ModelData> {
