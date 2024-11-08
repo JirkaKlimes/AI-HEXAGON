@@ -5,7 +5,7 @@ const repo: string = process.env.GITHUB_REPOSITORY!;
 async function fetchFile<T>(path: string): Promise<T> {
   const url = `https://raw.githubusercontent.com/${repo}/main/${path}`;
   console.log(url);
-  const response = await fetch(url, { next: { revalidate: 600 } });
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch file: ${response.statusText}`);
   }
@@ -22,7 +22,7 @@ interface File {
 
 export async function fetchModelList(): Promise<string[]> {
   const url = `https://api.github.com/repos/${repo}/contents/results`;
-  const response = await fetch(url, { next: { revalidate: 600 } });
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch models: ${response.statusText}`);
   }
