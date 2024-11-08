@@ -155,6 +155,16 @@ Test suites use a JSON configuration format:
 
 📈 Results are automatically generated via GitHub Actions to ensure fairness. The leaderboard is updated in real-time at [ai-hexagon.dev](https://ai-hexagon.dev).
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=JirkaKlimes/AI-HEXAGON&type=Date)](https://star-history.com/#JirkaKlimes/AI-HEXAGON&Date)
+
+## Support the Project
+
+If you find JIT Implementation helpful or amusing, consider buying me a coffee!
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/jiriklimes)
+
 ## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
