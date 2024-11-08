@@ -31,6 +31,17 @@ interface Plot {
   xLabel: string;
 }
 
+const ChartContainer: FC<{ children: ReactNode; title: string }> = ({
+  children,
+  title,
+}) => (
+  <div className="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700">
+    <h4 className="text-lg font-medium text-gray-200 mb-4">{title}</h4>
+    {children}
+  </div>
+);
+ChartContainer.displayName = 'ChartContainer';
+
 const PlotSection: FC<PlotSectionProps> = ({ results, suite }) => {
   const data: DataPoint[] = results.map((model) => ({
     name: model.title,
@@ -75,16 +86,6 @@ const PlotSection: FC<PlotSectionProps> = ({ results, suite }) => {
       }
       return null;
     };
-
-  const ChartContainer: FC<{ children: ReactNode; title: string }> = ({
-    children,
-    title,
-  }) => (
-    <div className="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700">
-      <h4 className="text-lg font-medium text-gray-200 mb-4">{title}</h4>
-      {children}
-    </div>
-  );
 
   return (
     <section className="w-full max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -218,5 +219,7 @@ const PlotSection: FC<PlotSectionProps> = ({ results, suite }) => {
     </section>
   );
 };
+
+PlotSection.displayName = 'PlotSection';
 
 export default PlotSection;

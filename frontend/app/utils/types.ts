@@ -20,7 +20,6 @@ export interface TestEntry {
 
 export interface Test {
   name: string;
-  [key: string]: any;
 }
 
 export interface ModelResult {

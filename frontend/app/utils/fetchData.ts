@@ -33,7 +33,7 @@ export async function fetchModelList(): Promise<string[]> {
 
 export async function fetchModelData(name: string): Promise<ModelData> {
   const path = `results/${name}/model.result.json`;
-  var f = await fetchFile<ModelResult>(path);
+  let f = await fetchFile<ModelResult>(path);
   const result: ModelData = {
     ...f,
     source: `https://github.com/${repo}/blob/main/results/${name}/model.py`,

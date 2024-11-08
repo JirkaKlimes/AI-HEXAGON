@@ -28,7 +28,6 @@ const CardContainer: FC<{ children: ReactNode }> = ({ children }) => (
 const CustomRadarTooltip: React.FC<TooltipProps<number, string>> = ({
   active,
   payload,
-  label,
 }) => {
   if (active && payload && payload.length > 0) {
     const dataPoint = payload[0].payload as { metric: string; value: number };
