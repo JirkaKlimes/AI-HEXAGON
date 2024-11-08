@@ -37,7 +37,7 @@ class GroupedQueryAttention(nn.Module):
         scores = jnp.einsum("...jk,...ik->...ji", qx, kx)
         scores /= jnp.sqrt(head_dim)
         if mask is not None:
-            scores -= 1 / mask + 1
+            scores = jnp.where(mask, scores, -jnp.inf)
         scores = nn.softmax(scores)
 
         out = jnp.einsum("...jk,...ki->...ji", scores, vx)
