@@ -1,8 +1,10 @@
 import { ModelCard } from '@/components/ModelCard';
 
 interface ModelResult {
-  name: string;
+  title: string;
   description: string;
+  authors: string[] | null;
+  paper: string | null;
   metrics: { [key: string]: number };
   model_stats: {
     size: number;
@@ -14,12 +16,12 @@ interface ModelResult {
   };
 }
 
+const repo = `${process.env.GITHUB_REPOSITORY_OWNER!}/${process.env
+  .GITHUB_REPOSITORY!}`;
+
 async function fetchFile(path: string) {
-  const repo = process.env.GITHUB_REPO;
-  if (!repo) {
-    throw new Error('Missing GITHUB_REPO environment variable');
-  }
   const url = `https://raw.githubusercontent.com/${repo}/refs/heads/main/${path}`;
+  console.log(url);
   const response = await fetch(url, { next: { revalidate: 600 } });
   if (!response.ok) {
     throw new Error(`Failed to fetch suite: ${response.statusText}`);
@@ -27,11 +29,7 @@ async function fetchFile(path: string) {
   return response.json();
 }
 
-async function listModels() {
-  const repo = process.env.GITHUB_REPO;
-  if (!repo) {
-    throw new Error('Missing GITHUB_REPO environment variable');
-  }
+async function fetchModelList() {
   const url = `https://api.github.com/repos/${repo}/contents/results`;
   const response = await fetch(url, { next: { revalidate: 600 } });
   if (!response.ok) {
@@ -42,10 +40,15 @@ async function listModels() {
   const models = folders.map((folder: any) => folder.name);
   return models;
 }
+async function fetchModelResult(name: string) {
+  const path = `results/${name}/model.result.json`;
+  const result: ModelResult = await fetchFile(path);
+  return result;
+}
 
 export default async function Home() {
-  const suite = await fetchFile('./results/suite.json');
-  const models = await listModels();
+  const suite = await fetchFile('results/suite.json');
+  const models = await fetchModelList();
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
