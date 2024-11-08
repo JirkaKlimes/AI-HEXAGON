@@ -1,0 +1,18 @@
+{
+    "title": "Multi-Domain CNN",
+    "description": "Multi-Domain CNN model performs convolutions in both time and frequency domains.",
+    "authors": ["Jiří Klimeš"],
+    "paper": null,
+    "metrics": {
+        "Memory Capacity": 0.13031925018784563,
+        "State Management": 0.28913837441541157
+    },
+    "model_stats": {
+        "size": 1048832,
+        "size_doubling_rate": 0.9899999499320984,
+        "size_big_o": "???",
+        "flops": 528384,
+        "flops_doubling_rate": 1.0,
+        "flops_big_o": "???"
+    }
+}

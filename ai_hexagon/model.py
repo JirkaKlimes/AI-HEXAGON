@@ -25,7 +25,7 @@ def _compute_doubling_rate(x: Dict):
     slope = jnp.polyfit(jnp.log2(n), jnp.log2(fn), 1)[0]
     if abs(slope) < 1e-3:
         return 0.0
-    return float(slope)
+    return float(slope.round(2))
 
 
 def _fit_big_o(x: Dict) -> str:

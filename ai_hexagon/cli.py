@@ -85,7 +85,7 @@ def run(model_path: Path, suite_path: Path, save: bool):
 
     model_class = classes[0]
     result = suite.evaluate(model_class)
-    json_str = json.dumps(result.model_dump(), indent=4)
+    json_str = json.dumps(result.model_dump(), indent=4, ensure_ascii=False)
     print(json_str)
     if save:
         with open(Path(model_path).with_suffix(".result.json"), "w") as f:

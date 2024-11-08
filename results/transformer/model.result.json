@@ -13,15 +13,15 @@
     ],
     "paper": "https://arxiv.org/abs/1706.03762",
     "metrics": {
-        "Memory Capacity": 0.7109678768408719,
-        "State Management": 0.2056252786081656
+        "Memory Capacity": 0.39318624060787466,
+        "State Management": 0.06394656736490589
     },
     "model_stats": {
         "size": 2283264,
         "size_doubling_rate": 0.0,
-        "size_big_o": "O(1)",
-        "flops": 12078972928,
-        "flops_doubling_rate": 1.330410122871399,
-        "flops_big_o": "O(N^2)"
+        "size_big_o": "???",
+        "flops": 14176124928,
+        "flops_doubling_rate": 1.350000023841858,
+        "flops_big_o": "???"
     }
 }
