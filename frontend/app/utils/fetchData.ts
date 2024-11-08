@@ -1,6 +1,6 @@
 import { Suite, ModelResult, ModelData, GitHubContentsResponse } from './types';
 
-const repo = `${process.env.GITHUB_REPOSITORY_OWNER}/${process.env.GITHUB_REPOSITORY}`;
+const repo: string = process.env.GITHUB_REPOSITORY!;
 
 async function fetchFile<T>(path: string): Promise<T> {
   const url = `https://raw.githubusercontent.com/${repo}/main/${path}`;

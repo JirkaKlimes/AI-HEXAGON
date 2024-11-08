@@ -32,10 +32,6 @@ jobs:
         defaults:
             run:
                 working-directory: ./frontend # Set default working directory for all run steps
-        env:
-            GITHUB_REPOSITORY: ${{ github.repository }}
-            GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
-
         steps:
             - name: Checkout
               uses: actions/checkout@v4
