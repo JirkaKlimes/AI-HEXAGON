@@ -1,3 +1,4 @@
-from ai_hexagon.test import Test
+from ai_hexagon.test import BaseTest
+from ai_hexagon.model import Model
 
-__all__ = ["Test"]
+__all__ = ["BaseTest", "Model"]

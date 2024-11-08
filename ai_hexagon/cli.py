@@ -1,13 +1,13 @@
 import json
 from pathlib import Path
+from typing import get_args
 import click
 from tabulate import tabulate
 import importlib.util
 import inspect
 
-from ai_hexagon import Test
 from ai_hexagon.test_suite import TestSuite
-from ai_hexagon.tests import *  # noqa: F403
+from ai_hexagon.tests import Test
 from ai_hexagon.model import Model
 
 
@@ -24,9 +24,10 @@ def tests():
 @tests.command()
 @click.argument("test_name")
 def show(test_name: str):
-    test = Test.__tests__[test_name]
-    print(f"Title: {test.__test_title__}")
-    print(f"Description: {test.__test_description__}")
+    tests = {t.get_test_name(): t for t in get_args(Test)}
+    test = tests[test_name]
+    print(f"Title: {test.__title__}")
+    print(f"Description: {test.__description__}")
     print()
     print("Schema:")
     print(json.dumps(test.model_json_schema(), indent=4))
@@ -37,11 +38,9 @@ def list():
     headers = ["Test Name", "Test Title", "Description"]
     table_data = []
 
-    for test in Test.__tests__.values():
-        name = test.__test_name__
-        title = test.__test_title__
-        description = getattr(test, "__test_description__", "")
-        table_data.append([name, title, description])
+    for test in get_args(Test):
+        name = test.get_test_name()
+        table_data.append([name, test.__title__, test.__description__])
 
     print(tabulate(table_data, headers=headers, tablefmt="simple_grid"))
 
@@ -86,6 +85,8 @@ def run(model_path: Path, suite_path: Path):
     model_class = classes[0]
     print(f"Model: {model_class.__name__}")
     print(f"Description: {model_class.__doc__}")
+    result = suite.evaluate(model_class)
+    print(json.dumps(result.model_dump(), indent=4))
 
 
 if __name__ == "__main__":

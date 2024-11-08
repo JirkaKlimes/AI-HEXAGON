@@ -7,12 +7,13 @@
             "description": "The ability of the model to store and recall information from the training data.",
             "tests": [
                 {
-                    "name": "hash_map",
                     "weight": 1.0,
-                    "parameters": {
+                    "test": {
+                        "name": "hash_map",
+                        "seed": 0,
                         "key_length": 8,
                         "value_length": 64,
-                        "num_pairs": [32, 65536],
+                        "num_pairs_range": [32, 65536],
                         "vocab_size": 1024
                     }
                 }
@@ -23,10 +24,11 @@
             "description": "The ability to maintain and manipulate an internal hidden state across a sequence of operations.",
             "tests": [
                 {
-                    "name": "state_tracking",
                     "weight": 1.0,
-                    "parameters": {
-                        "num_steps": [2, 128],
+                    "test": {
+                        "name": "state_tracking",
+                        "seed": 0,
+                        "num_steps_range": [2, 128],
                         "state_size": 16
                     }
                 }

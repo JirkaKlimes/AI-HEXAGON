@@ -1,17 +1,23 @@
-from typing import Any, Dict, List
+from typing import Dict, List, Type
 from pydantic import BaseModel
 
+from ai_hexagon.model import Model
+from ai_hexagon.tests import Test, HashMap, StateTracking
 
-class Test(BaseModel):
-    name: str
+
+class WeightedTest(BaseModel):
     weight: float
-    parameters: Dict[str, Any]
+    test: Test
 
 
 class Metric(BaseModel):
     name: str
     description: str
-    tests: List[Test]
+    tests: List[WeightedTest]
+
+
+class Results(BaseModel):
+    metrics: Dict[str, float] = {}
 
 
 class TestSuite(BaseModel):
@@ -19,21 +25,33 @@ class TestSuite(BaseModel):
     description: str
     metrics: List[Metric]
 
+    def evaluate(self, model: Type[Model]) -> Results:
+        weighted_tests = sum([m.tests for m in self.metrics], [])
+        tests = {wt.test for wt in weighted_tests}
+        test_results = {}
+        for t in tests:
+            test_results[t] = t.evalulate(model)
+        results = Results()
+        for m in self.metrics:
+            results.metrics[m.name] = sum(
+                [wt.weight * test_results[wt.test] for wt in m.tests]
+            )
+        return results
+
 
 if __name__ == "__main__":
     memory_capacity = Metric(
         name="Memory Capacity",
         description="The ability of the model to store and recall information from the training data.",
         tests=[
-            Test(
-                name="hash_map",
+            WeightedTest(
                 weight=1.0,
-                parameters={
-                    "key_length": 8,
-                    "value_length": 64,
-                    "num_pairs": (32, 65536),
-                    "vocab_size": 1024,
-                },
+                test=HashMap(
+                    key_length=8,
+                    value_length=64,
+                    num_pairs_range=(32, 65536),
+                    vocab_size=1024,
+                ),
             )
         ],
     )
@@ -41,11 +59,10 @@ if __name__ == "__main__":
         name="State Management",
         description="The ability to maintain and manipulate an internal hidden state across a sequence of operations.",
         tests=[
-            Test(
-                name="state_tracking",
+            WeightedTest(
                 weight=1.0,
-                parameters={"num_steps": (2, 128), "state_size": 16},
-            )
+                test=StateTracking(num_steps=(2, 128), state_size=16),
+            ),
         ],
     )
     suite = TestSuite(
