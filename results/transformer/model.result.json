@@ -1,4 +1,13 @@
 {
+    "name": "Transformer",
+    "arguments": {
+        "dims": 48,
+        "q_heads": 8,
+        "kv_heads": 8,
+        "blocks": 8,
+        "base_freq": 10000
+    },
+    "variation": null,
     "title": "Transformer",
     "description": "Decoder stack from 'Attention Is All You Need'.",
     "authors": [
@@ -13,15 +22,15 @@
     ],
     "paper": "https://arxiv.org/abs/1706.03762",
     "metrics": {
-        "Memory Capacity": 0.39318624060787466,
-        "State Management": 0.06394656736490589
+        "Memory Capacity": 0.6191981991061337,
+        "State Management": 0.07430168739050924
     },
     "model_stats": {
-        "size": 2283264,
+        "size": 4002560,
         "size_doubling_rate": 0.0,
         "size_big_o": "???",
-        "flops": 14176124928,
-        "flops_doubling_rate": 1.350000023841858,
+        "flops": 36455333888,
+        "flops_doubling_rate": 1.4299999475479126,
         "flops_big_o": "???"
     }
 }

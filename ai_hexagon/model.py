@@ -1,5 +1,5 @@
 import operator
-from typing import ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 import inflection
 import jax
 import jax.numpy as jnp
@@ -39,6 +39,7 @@ class Model(nn.Module):
     vocab_size: int
 
     __title__: ClassVar[Optional[str]] = None
+    __variation__: ClassVar[Optional[str]] = None
     __authors__: ClassVar[Optional[List[str]]] = None
     __paper__: ClassVar[Optional[str]] = None
 
@@ -47,16 +48,29 @@ class Model(nn.Module):
         return cls.__title__ or inflection.titleize(cls.__name__)
 
     @classmethod
+    def get_default_arguments(cls) -> Dict[str, Any]:
+        blacklist = {"parent", "name", "scope"}
+        arguments = {
+            k: v
+            for k, v in cls.__dict__.items()
+            if not k.startswith("_") and k not in blacklist
+        }
+        return arguments
+
+    @classmethod
     def compute_stats(
         cls, vocab_size: int, sequence_length: int, sequence_lengths: List[int]
     ) -> ModelStats:
         lenghts = set(sequence_lengths) | {sequence_length}
         sizes: Dict[int, int] = {}
         flops: Dict[float, float] = {}
+        key = jax.random.PRNGKey(0)
+        x = jnp.zeros((1, sequence_length), dtype=jnp.uint32)
+        print(cls(vocab_size=vocab_size).tabulate(key, x, depth=1))
         for length in lenghts:
             model = cls(vocab_size=vocab_size)
             x = jnp.zeros((1, length), dtype=jnp.uint32)
-            variables = model.init(jax.random.PRNGKey(0), x)
+            variables = model.init(key, x)
             params = variables["params"]
             sizes[length] = jax.tree.reduce(
                 operator.add, jax.tree.map(lambda x: x.nbytes, params)

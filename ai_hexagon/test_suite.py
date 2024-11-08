@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Type
+from typing import Any, Dict, List, Optional, Type
 from pydantic import BaseModel
 
 from ai_hexagon.model import Model, ModelStats
@@ -17,6 +17,9 @@ class Metric(BaseModel):
 
 
 class Results(BaseModel):
+    name: str
+    arguments: Dict[str, Any]
+    variation: Optional[str]
     title: str
     description: str
     authors: Optional[List[str]]
@@ -36,6 +39,9 @@ class TestSuite(BaseModel):
     metrics: List[Metric]
 
     def evaluate(self, model_class: Type[Model]) -> Results:
+        model_stats = model_class.compute_stats(
+            self.vocab_size, self.sequence_length, self.sequence_lengths
+        )
         weighted_tests = sum([m.tests for m in self.metrics], [])
         tests = {wt.test for wt in weighted_tests}
         test_results = {}
@@ -44,10 +50,10 @@ class TestSuite(BaseModel):
         metrics = {}
         for m in self.metrics:
             metrics[m.name] = sum([wt.weight * test_results[wt.test] for wt in m.tests])
-        model_stats = model_class.compute_stats(
-            self.vocab_size, self.sequence_length, self.sequence_lengths
-        )
         return Results(
+            name=model_class.__name__,
+            arguments=model_class.get_default_arguments(),
+            variation=model_class.__variation__,
             title=model_class.get_model_title(),
             description=model_class.__doc__,
             authors=model_class.__authors__,

@@ -21,10 +21,10 @@ class Transformer(Model):
     ]
     __paper__ = "https://arxiv.org/abs/1706.03762"
 
-    dims: int = 32
+    dims: int = 48
     q_heads: int = 8
     kv_heads: int = 8
-    blocks: int = 4
+    blocks: int = 8
     base_freq: int = 10000
 
     @nn.compact
@@ -35,9 +35,7 @@ class Transformer(Model):
         # x += SinEmbedding(self.base_freq)(x)
 
         for _ in range(self.blocks):
-            x = x + GroupedQueryAttention(self.dims, self.q_heads, self.kv_heads)(
-                x, x, x
-            )
+            x = x + GroupedQueryAttention(self.dims, self.q_heads, self.kv_heads)(x, x)
             x = nn.LayerNorm()(x)
 
             x = x + MLP(4 * self.dims)(x)
