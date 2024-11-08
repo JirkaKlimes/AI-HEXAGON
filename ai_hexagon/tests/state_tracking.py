@@ -14,6 +14,6 @@ class StateTracking(BaseTest):
     num_steps_range: Tuple[int, int] = (2, 128)
     state_size: int = 16
 
-    def evalulate(self, model: Type[Model]) -> float:
+    def evalulate(self, model_class: Type[Model]) -> float:
         # TODO: implement the testing
         return random.random()

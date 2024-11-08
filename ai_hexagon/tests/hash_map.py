@@ -17,6 +17,6 @@ class HashMap(BaseTest):
     num_pairs_range: Tuple[int, int] = (32, 65536)
     vocab_size: int = 1024
 
-    def evalulate(self, model: Type[Model]) -> float:
+    def evalulate(self, model_class: Type[Model]) -> float:
         # TODO: implement the testing
         return random.random()

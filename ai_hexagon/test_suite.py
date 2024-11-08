@@ -35,23 +35,23 @@ class TestSuite(BaseModel):
     sequence_lengths: List[int]
     metrics: List[Metric]
 
-    def evaluate(self, model: Type[Model]) -> Results:
+    def evaluate(self, model_class: Type[Model]) -> Results:
         weighted_tests = sum([m.tests for m in self.metrics], [])
         tests = {wt.test for wt in weighted_tests}
         test_results = {}
         for t in tests:
-            test_results[t] = t.evalulate(model)
+            test_results[t] = t.evalulate(model_class)
         metrics = {}
         for m in self.metrics:
             metrics[m.name] = sum([wt.weight * test_results[wt.test] for wt in m.tests])
-        model_stats = model.compute_stats(
+        model_stats = model_class.compute_stats(
             self.vocab_size, self.sequence_length, self.sequence_lengths
         )
         return Results(
-            title=model.get_model_title(),
-            description=model.__doc__,
-            authors=model.__authors__,
-            paper=model.__paper__,
+            title=model_class.get_model_title(),
+            description=model_class.__doc__,
+            authors=model_class.__authors__,
+            paper=model_class.__paper__,
             metrics=metrics,
             model_stats=model_stats,
         )

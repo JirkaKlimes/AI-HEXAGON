@@ -27,7 +27,7 @@ class BaseTest(ABC, BaseModel):
         return super().model_post_init(__context)
 
     @abstractmethod
-    def evalulate(self, model: Type[Model]) -> float: ...
+    def evalulate(self, model_class: Type[Model]) -> float: ...
 
     @classmethod
     def get_test_name(cls):
