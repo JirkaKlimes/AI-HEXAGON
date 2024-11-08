@@ -7,7 +7,19 @@ from ai_hexagon.modules.mlp import MLP
 
 
 class Transformer(Model):
-    """Decoder stack from 'Attention Is All You Need' paper."""
+    """Decoder stack from 'Attention Is All You Need'."""
+
+    __authors__ = [
+        "Ashish Vaswani",
+        "Noam Shazeer",
+        "Niki Parmar",
+        "Jakob Uszkoreit",
+        "Llion Jones",
+        "Aidan N. Gomez",
+        "Lukasz Kaiser",
+        "Illia Polosukhin",
+    ]
+    __paper__ = "https://arxiv.org/abs/1706.03762"
 
     dims: int = 32
     q_heads: int = 8

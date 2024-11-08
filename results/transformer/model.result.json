@@ -1,0 +1,27 @@
+{
+    "title": "Transformer",
+    "description": "Decoder stack from 'Attention Is All You Need'.",
+    "authors": [
+        "Ashish Vaswani",
+        "Noam Shazeer",
+        "Niki Parmar",
+        "Jakob Uszkoreit",
+        "Llion Jones",
+        "Aidan N. Gomez",
+        "Lukasz Kaiser",
+        "Illia Polosukhin"
+    ],
+    "paper": "https://arxiv.org/abs/1706.03762",
+    "metrics": {
+        "Memory Capacity": 0.7109678768408719,
+        "State Management": 0.2056252786081656
+    },
+    "model_stats": {
+        "size": 2283264,
+        "size_doubling_rate": 0.0,
+        "size_big_o": "O(1)",
+        "flops": 12078972928,
+        "flops_doubling_rate": 1.330410122871399,
+        "flops_big_o": "O(N^2)"
+    }
+}

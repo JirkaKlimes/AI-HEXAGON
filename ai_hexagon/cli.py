@@ -53,9 +53,10 @@ def suite():
 @suite.command()
 @click.argument("model_path", type=click.Path(exists=True))
 @click.option(
-    "--suite_path", type=click.Path(exists=True), default="./results/suite.json"
+    "--suite_path", type=click.Path(exists=True), default=Path("./results/suite.json")
 )
-def run(model_path: Path, suite_path: Path):
+@click.option("--save", is_flag=True)
+def run(model_path: Path, suite_path: Path, save: bool):
     suite = TestSuite(**json.load(open(suite_path)))
     print(suite.model_dump_json(indent=4))
 
@@ -83,10 +84,12 @@ def run(model_path: Path, suite_path: Path):
         return
 
     model_class = classes[0]
-    print(f"Model: {model_class.__name__}")
-    print(f"Description: {model_class.__doc__}")
     result = suite.evaluate(model_class)
-    print(json.dumps(result.model_dump(), indent=4))
+    json_str = json.dumps(result.model_dump(), indent=4)
+    print(json_str)
+    if save:
+        with open(Path(model_path).with_suffix(".result.json"), "w") as f:
+            f.write(json_str)
 
 
 if __name__ == "__main__":

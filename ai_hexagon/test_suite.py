@@ -1,7 +1,7 @@
-from typing import Dict, List, Type
+from typing import Dict, List, Optional, Type
 from pydantic import BaseModel
 
-from ai_hexagon.model import Model
+from ai_hexagon.model import Model, ModelStats
 from ai_hexagon.tests import Test, HashMap, StateTracking
 
 
@@ -17,12 +17,22 @@ class Metric(BaseModel):
 
 
 class Results(BaseModel):
-    metrics: Dict[str, float] = {}
+    title: str
+    description: str
+    authors: Optional[List[str]]
+    paper: Optional[str]
+    metrics: Dict[str, float]
+    model_stats: ModelStats
+
+    model_config = {"protected_namespaces": ()}
 
 
 class TestSuite(BaseModel):
     name: str
     description: str
+    vocab_size: int
+    sequence_length: int
+    sequence_lengths: List[int]
     metrics: List[Metric]
 
     def evaluate(self, model: Type[Model]) -> Results:
@@ -31,12 +41,20 @@ class TestSuite(BaseModel):
         test_results = {}
         for t in tests:
             test_results[t] = t.evalulate(model)
-        results = Results()
+        metrics = {}
         for m in self.metrics:
-            results.metrics[m.name] = sum(
-                [wt.weight * test_results[wt.test] for wt in m.tests]
-            )
-        return results
+            metrics[m.name] = sum([wt.weight * test_results[wt.test] for wt in m.tests])
+        model_stats = model.compute_stats(
+            self.vocab_size, self.sequence_length, self.sequence_lengths
+        )
+        return Results(
+            title=model.get_model_title(),
+            description=model.__doc__,
+            authors=model.__authors__,
+            paper=model.__paper__,
+            metrics=metrics,
+            model_stats=model_stats,
+        )
 
 
 if __name__ == "__main__":
@@ -68,6 +86,9 @@ if __name__ == "__main__":
     suite = TestSuite(
         name="General 1M",
         description="General test of model architecture performance",
+        vocab_size=16000,
+        sequence_length=8192,
+        sequence_lengths=[32, 64, 128, 256, 512, 1024, 2048, 4096, 8192],
         metrics=[memory_capacity, state_management],
     )
     print(suite.model_dump_json(indent=4))

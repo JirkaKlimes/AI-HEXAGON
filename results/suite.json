@@ -1,6 +1,9 @@
 {
     "name": "General 1M",
     "description": "General test of model architecture performance",
+    "vocab_size": 8000,
+    "sequence_length": 4096,
+    "sequence_lengths": [32, 64, 128, 256, 512, 1024, 2048, 4096],
     "metrics": [
         {
             "name": "Memory Capacity",
