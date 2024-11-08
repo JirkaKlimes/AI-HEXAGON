@@ -1,27 +1,49 @@
 {
     "name": "MultiDomainCNN",
-    "arguments": {
-        "dims": 48,
-        "blocks": 48,
-        "separable_conv": true
-    },
-    "variation": null,
     "title": "Multi-Domain CNN",
     "description": "Multi-Domain CNN model performs convolutions in both time and frequency domains.",
     "authors": [
         "Jiří Klimeš"
     ],
     "paper": null,
-    "metrics": {
-        "Memory Capacity": 0.535144454519788,
-        "State Management": 0.03441506966402952
-    },
-    "model_stats": {
-        "size": 3848576,
-        "size_doubling_rate": 0.0,
-        "size_big_o": "???",
-        "flops": 8070400000,
-        "flops_doubling_rate": 1.1399999856948853,
-        "flops_big_o": "???"
+    "variations": {
+        "default": {
+            "arguments": {
+                "dims": 32,
+                "blocks": 32,
+                "separable_conv": false
+            },
+            "metrics": {
+                "Memory Capacity": 0.7694533721959296,
+                "State Management": 0.21088459699497042
+            },
+            "model_stats": {
+                "size": 3619584,
+                "size_doubling_rate": 0.0,
+                "size_big_o": "???",
+                "flops": 5335194112,
+                "flops_doubling_rate": 1.0799999237060547,
+                "flops_big_o": "???"
+            }
+        },
+        "separable": {
+            "arguments": {
+                "dims": 48,
+                "blocks": 48,
+                "separable_conv": true
+            },
+            "metrics": {
+                "Memory Capacity": 0.7063473677828858,
+                "State Management": 0.9021212054382
+            },
+            "model_stats": {
+                "size": 3867008,
+                "size_doubling_rate": 0.0,
+                "size_big_o": "???",
+                "flops": 11282974720,
+                "flops_doubling_rate": 1.090000033378601,
+                "flops_big_o": "???"
+            }
+        }
     }
 }

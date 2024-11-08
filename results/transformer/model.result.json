@@ -1,13 +1,5 @@
 {
     "name": "Transformer",
-    "arguments": {
-        "dims": 48,
-        "q_heads": 8,
-        "kv_heads": 8,
-        "blocks": 8,
-        "base_freq": 10000
-    },
-    "variation": null,
     "title": "Transformer",
     "description": "Decoder stack from 'Attention Is All You Need'.",
     "authors": [
@@ -21,16 +13,27 @@
         "Illia Polosukhin"
     ],
     "paper": "https://arxiv.org/abs/1706.03762",
-    "metrics": {
-        "Memory Capacity": 0.6191981991061337,
-        "State Management": 0.07430168739050924
-    },
-    "model_stats": {
-        "size": 4002560,
-        "size_doubling_rate": 0.0,
-        "size_big_o": "???",
-        "flops": 36455333888,
-        "flops_doubling_rate": 1.4299999475479126,
-        "flops_big_o": "???"
+    "variations": {
+        "default": {
+            "arguments": {
+                "dims": 48,
+                "q_heads": 8,
+                "kv_heads": 8,
+                "blocks": 8,
+                "base_freq": 10000
+            },
+            "metrics": {
+                "Memory Capacity": 0.0966954755912065,
+                "State Management": 0.6805793781807292
+            },
+            "model_stats": {
+                "size": 4002560,
+                "size_doubling_rate": 0.0,
+                "size_big_o": "???",
+                "flops": 36455333888,
+                "flops_doubling_rate": 1.4299999475479126,
+                "flops_big_o": "???"
+            }
+        }
     }
 }

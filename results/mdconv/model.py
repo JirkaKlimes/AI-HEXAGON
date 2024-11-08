@@ -11,10 +11,13 @@ class MultiDomainCNN(Model):
 
     __title__ = "Multi-Domain CNN"
     __authors__ = ["Jiří Klimeš"]
+    __variations__ = {
+        "separable": {"dims": 48, "blocks": 48, "separable_conv": True},
+    }
 
-    dims: int = 48
-    blocks: int = 48
-    separable_conv: bool = True
+    dims: int = 32
+    blocks: int = 32
+    separable_conv: bool = False
 
     @nn.compact
     def __call__(self, x: Array) -> Array:
@@ -22,6 +25,7 @@ class MultiDomainCNN(Model):
 
         for _ in range(self.blocks):
             x = x + MDConv(self.separable_conv)(x)
+            x = nn.LayerNorm()(x)
 
         x = nn.Dense(self.vocab_size)(x)
         return x
