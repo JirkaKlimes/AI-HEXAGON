@@ -61,9 +61,11 @@ const PlotSection: FC<PlotSectionProps> = ({ results, suite }) => {
     { xKey: 'flopsDoublingRate', xLabel: 'FLOPs Doubling Rate' },
   ];
 
-  const CustomTooltip =
-    (xKey: keyof DataPoint, xLabel: string) =>
-    ({ active, payload }: TooltipProps<number, string>) => {
+  const CustomTooltip = (xKey: keyof DataPoint, xLabel: string) => {
+    const TooltipComponent: FC<TooltipProps<number, string>> = ({
+      active,
+      payload,
+    }) => {
       if (active && payload && payload.length > 0 && payload[0].payload) {
         const dataPoint = payload[0].payload as DataPoint;
         const value = dataPoint[xKey];
@@ -86,6 +88,11 @@ const PlotSection: FC<PlotSectionProps> = ({ results, suite }) => {
       }
       return null;
     };
+
+    TooltipComponent.displayName = `CustomTooltip_${xKey}`;
+
+    return TooltipComponent;
+  };
 
   return (
     <section className="w-full max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
