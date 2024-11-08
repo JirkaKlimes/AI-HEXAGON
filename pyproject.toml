@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "ai-hexagon"
 version = "0.1.0"
-description = ""
+description = "An objective way to evaluate neural network architectures"
 authors = ["Jiri Klimes <jiriklimes920@gmail.com>"]
 readme = "README.md"
 
