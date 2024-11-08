@@ -36,6 +36,21 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "Placeholder Ability",
+            "description": "The ability to hold place",
+            "tests": [
+                {
+                    "weight": 1.0,
+                    "test": {
+                        "name": "state_tracking",
+                        "seed": 0,
+                        "num_steps_range": [2, 128],
+                        "state_size": 16
+                    }
+                }
+            ]
         }
     ]
 }

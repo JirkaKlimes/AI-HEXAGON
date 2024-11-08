@@ -14,15 +14,16 @@
                 "separable_conv": false
             },
             "metrics": {
-                "Memory Capacity": 0.7694533721959296,
-                "State Management": 0.21088459699497042
+                "Memory Capacity": 0.5795598955583962,
+                "State Management": 0.614528309930267,
+                "Placeholder Ability": 0.614528309930267
             },
             "model_stats": {
                 "size": 3619584,
                 "size_doubling_rate": 0.0,
                 "size_big_o": "???",
-                "flops": 5335194112,
-                "flops_doubling_rate": 1.0799999237060547,
+                "flops": 3238042112,
+                "flops_doubling_rate": 1.0199999809265137,
                 "flops_big_o": "???"
             }
         },
@@ -33,8 +34,9 @@
                 "separable_conv": true
             },
             "metrics": {
-                "Memory Capacity": 0.7063473677828858,
-                "State Management": 0.9021212054382
+                "Memory Capacity": 0.7151521164907331,
+                "State Management": 0.8284689562500094,
+                "Placeholder Ability": 0.8284689562500094
             },
             "model_stats": {
                 "size": 3867008,

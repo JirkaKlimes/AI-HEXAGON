@@ -23,8 +23,9 @@
                 "base_freq": 10000
             },
             "metrics": {
-                "Memory Capacity": 0.0966954755912065,
-                "State Management": 0.6805793781807292
+                "Memory Capacity": 0.9451978499011041,
+                "State Management": 0.9887002233361999,
+                "Placeholder Ability": 0.9887002233361999
             },
             "model_stats": {
                 "size": 4002560,

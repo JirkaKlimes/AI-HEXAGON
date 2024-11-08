@@ -34,6 +34,8 @@ class VariationResults(BaseModel):
     metrics: Dict[str, float]
     model_stats: ModelStats
 
+    model_config = {"protected_namespaces": ()}
+
 
 class Results(BaseModel):
     name: str
@@ -42,8 +44,6 @@ class Results(BaseModel):
     authors: Optional[List[str]]
     paper: Optional[str]
     variations: Dict[str, VariationResults]
-
-    model_config = {"protected_namespaces": ()}
 
 
 def _compute_doubling_rate(x: Dict):
