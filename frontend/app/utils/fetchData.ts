@@ -1,4 +1,4 @@
-import { Suite, ModelResult, ModelData, GitHubContentsResponse } from './types';
+import { Suite, GitHubContentsResponse, ModelData, ModelResult } from './types';
 
 const repo: string = process.env.GITHUB_REPOSITORY!;
 
