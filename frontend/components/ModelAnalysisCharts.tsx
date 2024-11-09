@@ -12,7 +12,7 @@ import {
   Tooltip as RechartsTooltip,
   TooltipProps,
 } from 'recharts';
-import { ModelData, Suite } from '@/app/utils/types';
+import { ModelData, ModelVariationResult, Suite } from '@/app/utils/types';
 
 interface ProcessedModelData {
   name: string;
@@ -36,7 +36,7 @@ const ModelAnalysisCharts: React.FC<ModelAnalysisChartsProps> = ({
   const processedModels: ProcessedModelData[] = models.map((model) => {
     const variations = Object.values(model.variations);
 
-    let bestVariation: any = null;
+    let bestVariation: ModelVariationResult | null = null;
     let bestAvgMetric = -Infinity;
 
     variations.forEach((variation) => {
@@ -52,10 +52,10 @@ const ModelAnalysisCharts: React.FC<ModelAnalysisChartsProps> = ({
     return {
       name: model.title,
       avgMetric: bestAvgMetric,
-      sizeMB: bestVariation.model_stats.size / (1024 * 1024),
-      flopsGLOPs: bestVariation.model_stats.flops / 1e9,
-      sizeDoublingRate: bestVariation.model_stats.size_doubling_rate,
-      flopsDoublingRate: bestVariation.model_stats.flops_doubling_rate,
+      sizeMB: bestVariation!.model_stats.size / (1024 * 1024),
+      flopsGLOPs: bestVariation!.model_stats.flops / 1e9,
+      sizeDoublingRate: bestVariation!.model_stats.size_doubling_rate,
+      flopsDoublingRate: bestVariation!.model_stats.flops_doubling_rate,
     };
   });
 
