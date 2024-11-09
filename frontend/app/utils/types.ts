@@ -23,7 +23,7 @@ export interface ModelStats {
 }
 
 export interface ModelVariationResult {
-  arguments: Record<string, any>;
+  arguments: Record<string, string | number | boolean | null>;
   metrics: Record<string, number>;
   model_stats: ModelStats;
 }

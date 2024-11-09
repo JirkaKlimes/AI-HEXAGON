@@ -34,12 +34,12 @@ const ModelAnalysisCharts: React.FC<ModelAnalysisChartsProps> = ({
 }) => {
   // Process models data to select the best variation per model
   const processedModels: ProcessedModelData[] = models.map((model) => {
-    const variations = Object.entries(model.variations);
+    const variations = Object.values(model.variations);
 
     let bestVariation: any = null;
     let bestAvgMetric = -Infinity;
 
-    variations.forEach(([variationName, variation]) => {
+    variations.forEach((variation) => {
       const metricValues = Object.values(variation.metrics) as number[];
       const avgMetric =
         (metricValues.reduce((a, b) => a + b, 0) / metricValues.length) * 100;
