@@ -21,10 +21,20 @@ class Transformer(Model):
     ]
     __paper__ = "https://arxiv.org/abs/1706.03762"
 
-    dims: int = 48
+    __variations__ = {
+        "deep": {
+            "dims": 48,
+            "q_heads": 8,
+            "kv_heads": 8,
+            "blocks": 32,
+            "base_freq": 10000,
+        }
+    }
+
+    dims: int = 96
     q_heads: int = 8
     kv_heads: int = 8
-    blocks: int = 8
+    blocks: int = 6
     base_freq: int = 10000
 
     @nn.compact

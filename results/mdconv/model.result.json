@@ -9,41 +9,41 @@
     "variations": {
         "default": {
             "arguments": {
-                "dims": 32,
+                "dims": 48,
                 "blocks": 32,
                 "separable_conv": false
             },
             "metrics": {
-                "Memory Capacity": 0.5795598955583962,
-                "State Management": 0.614528309930267,
-                "Placeholder Ability": 0.614528309930267
+                "Memory Capacity": 0.8486230023775881,
+                "State Management": 0.42135286967836616,
+                "Placeholder Ability": 0.42135286967836616
             },
             "model_stats": {
-                "size": 3619584,
+                "size": 3811840,
                 "size_doubling_rate": 0.0,
                 "size_big_o": "???",
-                "flops": 3238042112,
-                "flops_doubling_rate": 1.0199999809265137,
+                "flops": 5181340672,
+                "flops_doubling_rate": 1.1399999856948853,
                 "flops_big_o": "???"
             }
         },
         "separable": {
             "arguments": {
-                "dims": 48,
+                "dims": 96,
                 "blocks": 48,
                 "separable_conv": true
             },
             "metrics": {
-                "Memory Capacity": 0.7151521164907331,
-                "State Management": 0.8284689562500094,
-                "Placeholder Ability": 0.8284689562500094
+                "Memory Capacity": 0.6820185233074713,
+                "State Management": 0.6765195783326619,
+                "Placeholder Ability": 0.6765195783326619
             },
             "model_stats": {
-                "size": 3867008,
+                "size": 3419776,
                 "size_doubling_rate": 0.0,
                 "size_big_o": "???",
-                "flops": 11282974720,
-                "flops_doubling_rate": 1.090000033378601,
+                "flops": 21466161152,
+                "flops_doubling_rate": 1.1200000047683716,
                 "flops_big_o": "???"
             }
         }

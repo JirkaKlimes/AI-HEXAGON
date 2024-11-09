@@ -16,23 +16,45 @@
     "variations": {
         "default": {
             "arguments": {
-                "dims": 48,
+                "dims": 96,
                 "q_heads": 8,
                 "kv_heads": 8,
-                "blocks": 8,
+                "blocks": 6,
                 "base_freq": 10000
             },
             "metrics": {
-                "Memory Capacity": 0.9451978499011041,
-                "State Management": 0.9887002233361999,
-                "Placeholder Ability": 0.9887002233361999
+                "Memory Capacity": 0.22416418225182588,
+                "State Management": 0.6789491126364332,
+                "Placeholder Ability": 0.6789491126364332
             },
             "model_stats": {
-                "size": 4002560,
+                "size": 3465472,
                 "size_doubling_rate": 0.0,
                 "size_big_o": "???",
-                "flops": 36455333888,
-                "flops_doubling_rate": 1.4299999475479126,
+                "flops": 47329968128,
+                "flops_doubling_rate": 1.5,
+                "flops_big_o": "???"
+            }
+        },
+        "deep": {
+            "arguments": {
+                "dims": 48,
+                "q_heads": 8,
+                "kv_heads": 8,
+                "blocks": 32,
+                "base_freq": 10000
+            },
+            "metrics": {
+                "Memory Capacity": 0.7547076261095388,
+                "State Management": 0.9069228976285546,
+                "Placeholder Ability": 0.9069228976285546
+            },
+            "model_stats": {
+                "size": 3991552,
+                "size_doubling_rate": 0.0,
+                "size_big_o": "???",
+                "flops": 133684019200,
+                "flops_doubling_rate": 1.659999966621399,
                 "flops_big_o": "???"
             }
         }

@@ -12,10 +12,10 @@ class MultiDomainCNN(Model):
     __title__ = "Multi-Domain CNN"
     __authors__ = ["Jiří Klimeš"]
     __variations__ = {
-        "separable": {"dims": 48, "blocks": 48, "separable_conv": True},
+        "separable": {"dims": 96, "blocks": 48, "separable_conv": True},
     }
 
-    dims: int = 32
+    dims: int = 48
     blocks: int = 32
     separable_conv: bool = False
 
