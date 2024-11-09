@@ -4,6 +4,8 @@
 
 📊 **[View Live Leaderboard & Results](https://ai-hexagon.dev)**
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14060642.svg)](https://doi.org/10.5281/zenodo.14060642)
+
 AI-HEXAGON is an objective benchmarking framework designed to evaluate neural network architectures independently of natural language processing tasks. By isolating architectural capabilities from training techniques and datasets, it enables meaningful and efficient comparisons between different neural network designs.
 
 ## 🎯 Motivation
@@ -168,3 +170,18 @@ If you find AI-HEXAGON helpful, consider buying me a coffee!
 ## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📚 Citation
+
+If you use AI-HEXAGON in your research, please cite it as:
+
+```bibtex
+@software{ai_hexagon_2024,
+  author       = {Jirka Klimes},
+  title        = {AI-HEXAGON: Neural Architecture Benchmarking Framework},
+  month        = feb,
+  year         = 2024,
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.14060642},
+  url          = {https://doi.org/10.5281/zenodo.14060642}
+}
