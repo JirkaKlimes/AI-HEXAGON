@@ -36,7 +36,6 @@ const ModelAnalysisCharts: React.FC<ModelAnalysisChartsProps> = ({
   const processedModels: ProcessedModelData[] = models.map((model) => {
     const variations = Object.entries(model.variations);
 
-    let bestVariationName = '';
     let bestVariation: any = null;
     let bestAvgMetric = -Infinity;
 
@@ -46,7 +45,6 @@ const ModelAnalysisCharts: React.FC<ModelAnalysisChartsProps> = ({
         (metricValues.reduce((a, b) => a + b, 0) / metricValues.length) * 100;
       if (avgMetric > bestAvgMetric) {
         bestAvgMetric = avgMetric;
-        bestVariationName = variationName;
         bestVariation = variation;
       }
     });
@@ -80,7 +78,6 @@ const ModelAnalysisCharts: React.FC<ModelAnalysisChartsProps> = ({
   const CustomTooltip: React.FC<TooltipProps<number, string>> = ({
     active,
     payload,
-    label,
   }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload as ProcessedModelData;
