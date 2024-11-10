@@ -1,4 +1,4 @@
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Dict, List, Optional, Callable
 import inflection
 import jax
 import flax.linen as nn
@@ -42,12 +42,21 @@ class Model(nn.Module):
         )
         return state
 
-    def train_step(self, x: Array, y: Array, state: TrainState):
-        def loss_fn(params: FrozenVariableDict):
-            y_pred = state.apply_fn({"params": params}, x)
-            loss = optax.softmax_cross_entropy_with_integer_labels(y_pred, y).mean()
+    def apply_seq(self, params, state, x):
+        return state.apply_fn({"params": params}, x)
+
+    def train_step(
+        self,
+        x: Array,
+        y: Array,
+        state: TrainState,
+        loss_fn: Callable[[Array, Array], Array],
+    ):
+        def apply_fn(params: FrozenVariableDict):
+            y_pred = self.apply_seq(params, state, x)
+            loss = loss_fn(y_pred, y)
             return loss
 
-        grads = jax.grad(loss_fn)(state.params)
+        grads = jax.grad(apply_fn)(state.params)
         state = state.apply_gradients(grads=grads)
         return state
