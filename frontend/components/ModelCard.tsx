@@ -21,6 +21,7 @@ import {
   Radar,
   ResponsiveContainer,
   Tooltip as RechartsTooltip,
+  PolarAngleAxis,
 } from 'recharts';
 import { ModelData, ModelVariationResult, Suite } from '@/app/utils/types';
 
@@ -93,6 +94,10 @@ const ModelVariationContent = ({
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart data={radarData}>
             <PolarGrid stroke="#374151" />
+            <PolarAngleAxis
+              dataKey="metric"
+              tick={{ fill: '#9CA3AF', fontSize: 12 }}
+            />
             <RechartsTooltip content={<CustomTooltip />} />
             <Radar
               name="Metrics"
