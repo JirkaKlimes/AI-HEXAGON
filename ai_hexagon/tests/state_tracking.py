@@ -73,11 +73,9 @@ class StateTracking(BaseTest):
         def worker():
             while True:
                 if queue.qsize() >= 2:
-                    print("ready")
                     batch_group_take.clear()
                     batch_group_take.wait()
                     continue
-                print("do......")
                 batch_group_x = [None] * self.steps_group_size
                 batch_group_y = [None] * self.steps_group_size
                 for idx in range(self.steps_group_size):
@@ -88,7 +86,6 @@ class StateTracking(BaseTest):
                 batch_group_y = np.stack(batch_group_y)
 
                 queue.put((batch_group_x, batch_group_y))
-                print("do")
 
         def train(state: TrainState, batch_group: Array):
             def loss_fn(y_pred, y):
