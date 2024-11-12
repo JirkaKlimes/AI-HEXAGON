@@ -8,6 +8,7 @@ from queue import Queue
 from threading import Thread, Event
 from flax.training.train_state import TrainState
 import optax
+from tqdm import tqdm
 
 from ai_hexagon.model import Model
 from ai_hexagon.test import BaseTest
@@ -19,12 +20,12 @@ class StateTracking(BaseTest):
 
     name: Literal["state_tracking"] = "state_tracking"
 
-    num_steps: int = 4096
+    num_steps: int = 256
     state_size: int = 10
 
     batch_size: int = 64
     num_train_steps: int = 10000
-    steps_group_size: int = 10
+    steps_group_size: int = 100
     min_divergence: float = 0.001
 
     def evalulate(self, model_class: Type[Model]) -> float:
@@ -34,7 +35,7 @@ class StateTracking(BaseTest):
 
         def get_batch():
             swaps = jax.random.randint(
-                self.key,
+                self.cpu_key,
                 (self.batch_size, self.num_steps, 2),
                 minval=0,
                 maxval=self.state_size - 1,
@@ -58,18 +59,18 @@ class StateTracking(BaseTest):
 
         def worker():
             while True:
-                if queue.full():
+                if queue.qsize() >= 2:
+                    batch_group_take.clear()
                     batch_group_take.wait()
-
+                    continue
                 batch_group_x = [None] * self.steps_group_size
                 batch_group_y = [None] * self.steps_group_size
                 for idx in range(self.steps_group_size):
                     x, y = get_batch()
                     batch_group_x[idx] = x
                     batch_group_y[idx] = y
-                batch_group_x = jnp.stack(batch_group_x)
-                batch_group_y = jnp.stack(batch_group_y)
-
+                batch_group_x = np.stack(batch_group_x)
+                batch_group_y = np.stack(batch_group_y)
                 queue.put((batch_group_x, batch_group_y))
 
         def train(state: TrainState, batch_group: Array):
@@ -86,7 +87,7 @@ class StateTracking(BaseTest):
             state, _ = jax.lax.scan(scan_fn, state, batch_group)
             return state
 
-        queue: Queue = Queue(maxsize=2)
+        queue: Queue = Queue()
         batch_group_take = Event()
 
         train = jax.jit(train)
@@ -94,9 +95,9 @@ class StateTracking(BaseTest):
         Thread(target=worker, daemon=True).start()
 
         model = model_class(self.state_size)
-        state = model.init_train_state(get_batch()[0], self.key)
+        state = model.init_train_state(get_batch()[0], self.gpu_key)
 
-        for _ in range(self.num_train_steps // self.steps_group_size):
+        for _ in tqdm(range(self.num_train_steps // self.steps_group_size)):
             batch_group = queue.get()
             batch_group_take.set()
             state = train(state, batch_group)
